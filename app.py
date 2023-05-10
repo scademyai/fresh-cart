@@ -188,12 +188,15 @@ def create_app():
 
         category = ""
 
-        while category not in ("website", "general"):
+        while category not in ("website", "cart", "general"):
             category = categorize_question(text)
 
         if category == "website":
             website_answer = freshbot_stream(text)
             stream(website_answer, "orchestrate")
+        elif category == "cart":
+            cart_answer = cart_query_response(session_id, text)
+            stream(cart_answer, "orchestrate")
         elif category == "general":
             recipe_answer = json_recipe_response(text)
             stream_json(recipe_answer, "orchestrate")

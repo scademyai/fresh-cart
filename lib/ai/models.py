@@ -150,7 +150,7 @@ def categorize_question(prompt: str):
         messages=[
             {
                 "role": "system",
-                "content": "You are an assistant for a grocery store e-commerce website whose job is to categorize the user's question. You have decide whether the user asked something about the website, or about a general topic like a recipe for a breakfast.",
+                "content": "You are an assistant for a grocery store e-commerce website whose job is to categorize the user's question. You have decide whether the user asked something about the website, about their cart's content, or about a general topic like a recipe for a breakfast.",
             },
             {"role": "user", "content": categorization_context(prompt)},
         ],
@@ -171,7 +171,7 @@ def cart_query_response(session_id: str, prompt: str):
         messages=[
             {
                 "role": "system",
-                "content": "<WRITE HERE SOMETHING RELEVANT>",
+                "content": "You are an assistant for a grocery store e-commerce website whose job is to answer any request about the user's cart.",
             },
             {
                 "role": "user",

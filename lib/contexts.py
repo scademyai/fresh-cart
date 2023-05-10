@@ -121,13 +121,17 @@ def categorization_context(prompt: str) -> str:
 
     # Extend this context
     context = f"""
-        Decide whether the user asked something about the website, or about a general topic like a recipe for a breakfast.
+        Decide whether the user asked something about the website, about their cart, or about a general topic like a recipe for a breakfast.
         
         If the question is about the website, return 'website'.
+        If the question is about their cart, return 'cart'.
         If the question is about a general topic, return 'general'.
         
         Example question: Show me the terms and conditions.
         Your answer: website
+        
+        Example question: What is the total cost of dairy products in my cart?
+        Your answer: cart
         
         Example question: Write me a recipe for a dinner of 5 people.
         Your answer: general
@@ -202,7 +206,12 @@ def cart_query_context(session_id: str, prompt: str) -> str:
 
     # Extend this context
     context = f"""
-        {prompt}
+        {cart_context(session_id)}
+        
+        Answer the user's question based on the above cart.
+        
+        User question: {prompt}
+        Your answer:
     """
 
     return context
