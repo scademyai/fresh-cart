@@ -256,8 +256,18 @@ def create_app():
         session_id = jwt.decode(
             message["token"], app.secret_key, algorithms=["HS256"]
         )["sub"]
-        response = cart_query_response(session_id, message["text"])
-        stream(response, "cart-query")
+        chunks = ""
+        for token in json_recipe_from_product_catalog(message["text"]):
+            if content := token["choices"][0]["delta"].get("content"):
+                chunks += content
+            try:
+                cart = add_product_to_cart(session_id, json.loads(chunks))
+                socketio.emit(
+                    "auto-add-to-cart", {"cart": cart}, room=request.sid
+                )
+                chunks = ""
+            except json.JSONDecodeError:
+                continue
 
     # ADVANCED COURSE
     @socketio.on("search")

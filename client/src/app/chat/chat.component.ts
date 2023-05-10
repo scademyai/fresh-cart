@@ -22,7 +22,7 @@ export class ChatComponent {
 
   ngOnInit(): void {
     // TODO: Change this message type according to the current exercise
-    this.socket.getMessage('orchestrate').subscribe((data: SocketResponse) => {
+    this.socket.getMessage('auto-add-to-cart').subscribe((data: SocketResponse) => {
       if (data.text)
         this.message += data.text;
       if (data.json)
@@ -37,7 +37,7 @@ export class ChatComponent {
     this.message += `\n## **User**: ${newInput}`
     this.message += '\n## **FreshBot**: ';
     // TODO: Change this message type according to the current exercise
-    this.socket.sendMessage('orchestrate', this.userForm.value.userInput as string);
+    this.socket.sendMessage('auto-add-to-cart', this.userForm.value.userInput as string);
     this.userForm.reset();
   }
 
