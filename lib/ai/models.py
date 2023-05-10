@@ -125,7 +125,7 @@ def json_recipe_from_product_catalog(prompt: str):
         messages=[
             {
                 "role": "system",
-                "content": "<WRITE HERE SOMETHING RELEVANT>",
+                "content": "You are a chatbot called FreshBot for an e-commerce website called Fresh Cart. Your job is give recipes for the users.",
             },
             {
                 "role": "user",

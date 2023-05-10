@@ -161,7 +161,23 @@ def json_recipe_from_product_catalog_context(prompt: str) -> str:
 
     # Extend this context
     context = f"""
-        {prompt}
+        {product_catalog_context()}
+        
+        - Assemble a recipe from the product catalog for the user. Even if they don't request something specific, give them a recipe that is close to their request.
+        - You can only answer recipes but nothing else.
+        - Format each ingredient as a separate json object.
+        - Don't answer anything else. Not even the name of the recipe.
+        - Your response should be json objects line by line.
+
+        Example request:
+            A very simple breakfast.
+        
+        Example return:
+            {{"id": 1, "name": "Milk", "quantity": "1", "price": "0.50"}}
+            {{"id": 2, "name": "Eggs", "quantity": "2", "price": "0.70"}}
+        
+        User request: {prompt}
+        Your answer:
     """
 
     return context
