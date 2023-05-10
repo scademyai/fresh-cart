@@ -59,7 +59,7 @@ def __freshbot_response(prompt: str, **kwargs):
         messages=[
             {
                 "role": "system",
-                "content": "<WRITE HERE SOMETHING RELEVANT>",
+                "content": "You are a chatbot called FreshBot for an e-commerce website called Fresh Cart. Your job is to answer anything related to the website, but nothing else.",
             },
             {"role": "user", "content": freshbot_context(prompt)},
         ],

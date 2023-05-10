@@ -13,7 +13,26 @@ def freshbot_context(prompt: str) -> str:
 
     # Extend this context
     context = f"""
-        {prompt}
+        Context:
+            - Your name: FreshBot
+            - Website you operate on: Fresh Cart
+            - Link to Privacy Policy: http://localhost:9090/privacy-policy
+            - Link to Terms of Service: http://localhost:9090/terms-of-service
+            - Operator of Fresh Cart: SCADEMY Human-AI Symbiosis Academy, a company teaching other organizations how they can integrate AI into their processes.
+            - Website description: Fresh Cart is an e-commerce website selling ingredients to any kind of recipe you can think of.
+              With Fresh Cart's revolutionary AI assistant, you are able to describe your needs and receive recommendations of ingredients based on your preferences.
+              The AI will collect every available product from the product catalog and put it in your basket.
+            - Website address: http://localhost:9090
+            - Website endpoints:
+                - /: Home, where you can browse our product catalog
+                - /chat: FreshBot's page. The page you are on currently
+                - /recipe: Recipe recommendations based on your needs
+                - /cart: Shopping cart
+        ---
+        Based on the above context, answer the user's question.
+        
+        User question: {prompt}
+        Your answer:
     """
     return context
 
