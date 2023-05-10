@@ -21,6 +21,7 @@ from flask_socketio import SocketIO
 
 from lib.ai.models import (
     cart_query_response,
+    categorize_question,
     freshbot_stream,
     json_recipe_from_product_catalog,
     text_recipe_response,
@@ -171,8 +172,17 @@ def create_app():
             message["token"], app.secret_key, algorithms=["HS256"]
         )["sub"]
 
-        website_answer = freshbot_stream(text)
-        stream(website_answer, "orchestrate")
+        category = ""
+
+        while category not in ("website", "general"):
+            category = categorize_question(text)
+
+        if category == "website":
+            website_answer = freshbot_stream(text)
+            stream(website_answer, "orchestrate")
+        elif category == "general":
+            recipe_answer = text_recipe_response(text)
+            stream(recipe_answer, "orchestrate")
 
     # EXERCISE 4
     @socketio.on("json-recipe")
