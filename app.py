@@ -24,6 +24,7 @@ from lib.ai.models import (
     categorize_question,
     freshbot_stream,
     json_recipe_from_product_catalog,
+    json_recipe_response,
     text_recipe_response,
 )
 from lib.db import execute_query, get_every_product, query_formatter
@@ -133,6 +134,19 @@ def create_app():
                     message_type, {"text": content}, room=request.sid
                 )
 
+    def stream_json(generator, message_type):
+        chunks = ""
+        for token in generator:
+            if content := token["choices"][0]["delta"].get("content"):
+                chunks += content
+            try:
+                json.loads(chunks)
+                socketio.emit(message_type, {"json": chunks}, room=request.sid)
+                chunks = ""
+                continue
+            except json.JSONDecodeError:
+                continue
+
     # ************************** EXERCISES START BELOW **************************
 
     # EXERCISE 1
@@ -181,8 +195,8 @@ def create_app():
             website_answer = freshbot_stream(text)
             stream(website_answer, "orchestrate")
         elif category == "general":
-            recipe_answer = text_recipe_response(text)
-            stream(recipe_answer, "orchestrate")
+            recipe_answer = json_recipe_response(text)
+            stream_json(recipe_answer, "orchestrate")
 
     # EXERCISE 4
     @socketio.on("json-recipe")
