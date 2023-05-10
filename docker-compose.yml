@@ -1,0 +1,39 @@
+version: '3'
+services:
+  fresh-cart:
+    env_file: .env
+    build: ./
+    image: fresh-cart
+    working_dir: /usr/src/app/
+    volumes:
+      - ./:/usr/src/app/
+      - /usr/src/app/client/node_modules
+    ports:
+      - 4200:4200
+      - 9090:9090
+    command: >
+      sh -c "poetry run flask --debug run --host 0.0.0.0 --port 9090 & cd ./client && ng serve --host 0.0.0.0 --poll=500"
+    networks:
+      - fresh-cart
+    depends_on:
+      - postgres
+
+  postgres:
+    image: ankane/pgvector:v0.4.1
+    environment:
+      POSTGRES_DB: dev
+      POSTGRES_USER: app_dev
+      POSTGRES_PASSWORD: dev_password
+      ALLOW_IP_RANGE: "172.0.0.0/8"
+    command: ["postgres", "-c", "log_statement=none"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+      - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
+    networks:
+      - fresh-cart
+
+networks:
+  fresh-cart:
+
+volumes:
+  pgdata:

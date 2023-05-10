@@ -1,0 +1,10 @@
+<div class="flex flex-col flex-1 p-3 h-full items-center h-[calc(100%-4rem)]">
+    <markdown [data]="message" class="w-[60rem] flex-1 p-4 my-4 bg-[#eeeeee] rounded overflow-y-auto"></markdown>
+    <form [formGroup]="userForm" (keydown.enter)="sendMessage($event)">
+      <mat-form-field class="w-[60rem] h-24">
+        <mat-label>Ask something...</mat-label>
+        <textarea matInput formControlName="userInput" class="resize-none"></textarea>
+      </mat-form-field>
+      <button mat-raised-button (click)="sendMessage()" class="ml-4 primary-btn">Send</button>
+    </form>
+</div>

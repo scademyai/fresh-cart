@@ -1,0 +1,32 @@
+image: python:3.11.3-alpine3.17
+
+services:
+  - name: ankane/pgvector:v0.4.1
+    alias: postgres
+
+variables:
+  POETRY_VIRTUALENVS_IN_PROJECT: "true"
+  POSTGRES_DB: test
+  POSTGRES_USER: app_test
+  POSTGRES_PASSWORD: ""
+  POSTGRES_HOST_AUTH_METHOD: trust
+  DATABASE_URL: 'postgresql://app_test@postgres/test'
+
+before_script:
+  - apk update && apk upgrade
+
+test:
+  cache:
+    paths:
+      - .venv/
+  script:
+    - apk add --no-cache curl chromium postgresql-libs nodejs=18.14.2-r0 npm=9.1.2-r0 gcc g++ rustup musl-dev postgresql-dev libffi-dev postgresql-client
+    - rustup-init -y
+    - curl -sSL https://install.python-poetry.org | POETRY_HOME=/root/.poetry python - --version 1.4.2
+    - source /root/.cargo/env && /root/.poetry/bin/poetry install
+    - echo "CREATE EXTENSION IF NOT EXISTS vector;" | psql --host=postgres --username=app_test --dbname=test
+    - /root/.poetry/bin/poetry run autoflake --check --remove-all-unused-imports --ignore-init-module-imports --recursive app.py lib migrations scripts tests
+    - /root/.poetry/bin/poetry run isort --check-only app.py lib migrations scripts tests
+    - /root/.poetry/bin/poetry run black --check app.py lib migrations scripts tests
+    - /root/.poetry/bin/poetry run alembic upgrade head
+    - /root/.poetry/bin/poetry run nose2 -v

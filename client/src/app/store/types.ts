@@ -1,0 +1,25 @@
+export enum LoadingState {
+    Loading = 'LOADING',
+    Loaded = 'LOADED',
+  }
+
+export interface ProductState {
+    state: LoadingState;
+    data: Product[];
+}
+
+export interface CartState {
+    state: LoadingState;
+    data: CartData
+}
+
+export interface CartData {  
+    cart: Product[]   
+}
+export interface Product {
+    id: number;
+    name: string;
+    quantity: number;
+    price: number;
+}
+
