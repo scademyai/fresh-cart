@@ -89,7 +89,19 @@ def ex3_categorization_context(prompt: str) -> str:
 
     # Extend this context
     context = f"""
-        {prompt}
+        Decide whether the user asked something about the website, about their cart, or about a general topic like a recipe for a breakfast.
+        
+        If the question is about the website, return 'website'.
+        If the question is about a recipe, return 'recipe'.
+        
+        Example question: Show me the terms and conditions.
+        Your answer: website
+        
+        Example question: Write me a recipe for a dinner of 5 people.
+        Your answer: recipe
+
+        User input: {prompt}
+        Your answer:
     """
 
     return context

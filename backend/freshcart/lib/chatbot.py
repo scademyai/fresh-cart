@@ -23,10 +23,10 @@ def freshbot_entry_point(message: dict):
     # ex1_freshbot_website(message)
 
     # EXERCISE 2. Comment out the line above and uncomment the line below.
-    ex2_recipe_suggestion(message)
+    # ex2_recipe_suggestion(message)
 
     # EXERCISE 3. Comment out the line above and uncomment the line below.
-    # ex3_orchestrate(message)
+    ex3_orchestrate(message)
 
 
 def ex1_freshbot_website(message: dict):
