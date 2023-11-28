@@ -37,4 +37,19 @@ def stream_json(generator):
     # Fragment format: { "name": "Milk", "quantity": "1" }
 
     log("buffering chunks...")
-    stream(generator)
+    chunks = ""
+    for token in generator:
+        if content := token.choices[0].delta.content:
+            chunks += content
+            log(f"chunks: {chunks}")
+        try:
+            j = json.loads(chunks)
+            current_app.extensions["socketio"].emit(
+                MESSAGE_TYPE, {"json": j}, room=request.sid
+            )
+            log(f"emit: {j}")
+            chunks = ""
+            continue
+        except json.JSONDecodeError:
+            log("failed to parse")
+            continue

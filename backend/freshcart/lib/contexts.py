@@ -114,7 +114,24 @@ def ex4_json_recipe_context(prompt: str) -> str:
 
     # Extend this context
     context = f"""
-        {prompt}
+        Context:
+            - Even if the user doesn't ask something specific, give them a recipe that is close to their request.
+            - You can only answer recipes but nothing else.
+            - Format each ingredient as a separate json object.
+            - Don't answer anything else. Not even the name of the recipe.
+
+            Example request:
+                Breakfast for 1 person
+            Example return:
+                {{"name": "Milk", "quantity": "1"}}
+                {{"name": "Eggs", "quantity": "2"}}
+                {{"name": "Butter", "quantity": "1"}}
+                {{"name": "Bread", "quantity": "1"}}
+        ---
+        Give a recipe for the user based on the above context.
+        
+        User request: {prompt}
+        Your answer:
     """
     return context
 

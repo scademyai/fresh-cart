@@ -56,10 +56,10 @@ def ex3_orchestrate(message: dict):
     if category == "website":
         ex1_freshbot_website(message)
     elif category == "recipe":
-        ex2_recipe_suggestion(message)
+        # ex2_recipe_suggestion(message)
 
         # EXERCISE 4. Comment out the line above and uncomment the line below.
-        # ex4_json_recipe(message)
+        ex4_json_recipe(message)
 
         # EXERCISE 5. Comment out the line above and uncomment the line below.
         # ex5_product_catalog_recipe(message)
