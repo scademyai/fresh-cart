@@ -1,0 +1,50 @@
+version: '3'
+services:
+  fresh-cart-be:
+    env_file: backend/.env
+    build: backend
+    image: fresh-cart-be
+    working_dir: /usr/src/app/
+    volumes:
+      - ./backend/:/usr/src/app/
+    ports:
+      - 9090:9090
+    command: poetry run flask --debug --app freshcart/app run --host 0.0.0.0 --port 9090
+    networks:
+      - fresh-net
+    depends_on:
+      - postgres
+
+  fresh-cart-fe:
+    build: frontend
+    image: fresh-cart-fe
+    working_dir: /usr/src/app/
+    volumes:
+      - ./frontend/:/usr/src/app/
+      - /usr/src/app/node_modules
+    ports:
+      - 4200:4200
+    command: npm start
+    networks:
+      - fresh-net
+
+  postgres:
+    image: ankane/pgvector:v0.4.1
+    environment:
+      POSTGRES_DB: dev
+      POSTGRES_USER: app_dev
+      POSTGRES_PASSWORD: dev_password
+      ALLOW_IP_RANGE: "172.0.0.0/8"
+    command: ["postgres", "-c", "log_statement=none"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+      - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
+      - ./db:/db
+    networks:
+      - fresh-net
+
+networks:
+  fresh-net:
+
+volumes:
+  pgdata:

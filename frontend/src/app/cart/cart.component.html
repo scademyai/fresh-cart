@@ -1,0 +1,57 @@
+<div class="flex justify-around">
+  <div *ngIf="(products$ | async)?.length==0" class="flex flex-col justify-between items-center h-[25vh]">
+    <div class="flex items-center justify-center rounded-full bg-opacity-70">
+      <mat-icon class="scale-[2.5] text-secondary opacity-70">shopping_cart</mat-icon>
+    </div>
+    <div class="text-secondary text-2xl m-[1vw]">
+      Your cart is empty! Fill it with something!
+    </div>
+    <button mat-button class="text-base whitespace-nowrap primary-btn p-[1.5vw]" routerLink="/shop">
+      <mat-icon class="align-middle">storefront</mat-icon>Go to the shop
+    </button>
+  </div> 
+  <div *ngIf="(products$ | async)?.length!=0" class="flex flex-col">     
+  <mat-list role="list" *ngFor="let product of (products$ | async)">   
+    <div class="flex justify-between w-96">
+      <div class="flex flex-1 flex-row">
+        <div>
+          <div matListItemTitle class="text-secondary font-bold">
+            {{ product.name }}
+          </div>
+          <div matListItemLine>
+            {{ (product.price * product.quantity).toFixed(2) }}
+          </div>
+        </div>
+        <a [routerLink]="['/shop']" [queryParams]="{ products: product.name }">
+          <button mat-icon-button>
+            <mat-icon class="text-secondary">search</mat-icon>
+          </button>
+        </a>
+      </div>
+      <div class="flex flex-row justify-between w-[35%]">
+        <button mat-icon-button (click)="deleteProduct(product.id)" class="primary-btn">
+          <mat-icon>remove</mat-icon>
+        </button>
+        <div class="flex items-center text-xl">
+          {{ product.quantity }}
+        </div>
+        <button mat-icon-button (click)="addProduct(product)" class="primary-btn">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>      
+    </div>
+  </mat-list>
+  <div class="flex flex-row justify-between mt-[10px] pt-[10px] border-t-2 border-solid border-secondary">
+    <span class="text-secondary font-bold">Total: </span>
+      <ng-container *ngIf="total$ | async as total">
+          ${{ total.toFixed(2) }}
+      </ng-container>
+  </div>
+  <div class="flex justify-center">
+    <button mat-button (click)="deleteCart()" class="primary-btn w-[50%] mt-[2rem]">
+      Empty cart
+    </button>
+  </div>
+  </div>
+ 
+</div>

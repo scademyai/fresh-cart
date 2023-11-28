@@ -1,0 +1,37 @@
+image: docker:24.0.2-cli-alpine3.18 
+services:
+  - docker:24.0.2-dind-alpine3.18
+
+stages:
+  - test
+
+test-be-unit:
+  stage: test
+  services:
+    - docker:24.0.2-dind-alpine3.18
+    - name: ankane/pgvector:v0.5.0
+      alias: postgres
+  variables:
+    FF_NETWORK_PER_BUILD: "true"
+    POSTGRES_DB: test
+    POSTGRES_USER: app_test
+    POSTGRES_PASSWORD: ""
+    POSTGRES_HOST_AUTH_METHOD: trust
+    DATABASE_URL: 'postgresql://app_test@postgres/test'
+  script:
+    - cd backend
+    - docker build . -t fresh-cart-be
+    - docker run --rm fresh-cart-be poetry run autoflake --check --remove-all-unused-imports --recursive freshcart migrations
+    - docker run --rm fresh-cart-be poetry run isort --check-only freshcart migrations
+    - docker run --rm fresh-cart-be poetry run black --check freshcart migrations
+    - apk add --no-cache postgresql-client
+    - 'until psql -h postgres -U $POSTGRES_USER -c "CREATE EXTENSION IF NOT EXISTS vector" -d $POSTGRES_DB; do sleep 1; done'
+    - docker run --rm --network=host -e DATABASE_URL=$DATABASE_URL fresh-cart-be poetry run alembic upgrade head
+    - docker run --rm --network=host -e DATABASE_URL=$DATABASE_URL -e OPENAI_API_KEY=unused-key-for-test fresh-cart-be poetry run nose2 -v
+
+test-fe-unit:
+  stage: test
+  script:
+    - cd frontend
+    - docker build . -t fresh-cart-fe
+    - docker run --rm fresh-cart-fe npm test

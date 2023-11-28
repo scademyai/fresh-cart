@@ -1,0 +1,35 @@
+    <div class="flex justify-center">
+        <form [formGroup]="searchForm">
+            <mat-form-field class="example-full-width">
+              <mat-label>Search...</mat-label>
+              <input matInput formControlName="searchInput">
+              <button matSuffix mat-button (click)="search()"><mat-icon >search</mat-icon></button>
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="flex flex-wrap justify-center">
+        <mat-card class="w-80 h-36 mt-4 ml-4 bg-secondary" *ngFor="let product of obs | async">
+            <mat-card-header>
+                <mat-card-title-group>
+                <mat-card-title class="text-white">{{ product.name }}</mat-card-title>
+                <mat-card-subtitle class="text-primary">${{ product.price }}</mat-card-subtitle>
+                <img mat-card-sm-image class="text-white" src="/assets/box-icon.svg" >
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content class="pt-1">
+                <div class="flex justify-between">
+
+                    <button mat-button class="text-base whitespace-nowrap light-btn" (click)="addToCart(product)">
+                        <mat-icon class="align-middle">add_shopping_cart</mat-icon>Add to cart
+                    </button>
+                    <button mat-button class="text-base whitespace-nowrap light-btn" (click)="details(product.id)">
+                        Details
+                    </button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="flex justify-center">
+        <mat-paginator #paginator [pageSizeOptions]="[16]" class="bg-primary text-secondary mt-[30px]"></mat-paginator>
+    </div>
+    

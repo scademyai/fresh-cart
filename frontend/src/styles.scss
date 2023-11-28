@@ -1,0 +1,29 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #93cba3;}
+
+ul {
+    list-style: inside;
+}
+
+ol {
+    list-style-type: decimal;
+    list-style-position: inside;
+}
+
+@layer components {
+    .primary-btn {
+      @apply flex justify-center items-center bg-secondary text-white #{!important};
+    }
+
+    .secondary-btn {
+      @apply flex justify-center items-center bg-primary text-secondary #{!important};
+    }
+
+    .light-btn {
+      @apply flex justify-center items-center bg-orange text-secondary #{!important};
+    }
+  }

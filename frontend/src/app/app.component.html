@@ -1,0 +1,35 @@
+<mat-toolbar class="bg-secondary">
+  <a routerLink="/" class="inline-flex items-center">
+    <img src="/assets/fresh-cart-logo.png" width="40" height="40" class="mr-4 rounded-full" />
+    <span class="text-white">Fresh Cart</span>
+  </a>
+  <span class="flex-1"></span>
+  <button mat-icon-button matTooltip="Homepage" routerLink="/">
+    <mat-icon class="text-white">home</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Go shopping" routerLink="/shop">
+    <mat-icon class="text-white">storefront</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Go to cart" routerLink="/cart">
+    <mat-icon [matBadge]="(cartSize$ | async) || ''" matBadgeColor="warn" class="text-white">shopping_cart</mat-icon>
+  </button>
+  <div *ngIf="loggedIn; else notLoggedIn" class="inline-flex items-center">
+    <span class="text-white">{{name}}</span>
+    <button mat-icon-button matTooltip="Log out" (click)="logout()">
+      <mat-icon class="text-white">logout</mat-icon>
+    </button>
+  </div>
+  <ng-template #notLoggedIn>
+    <button mat-icon-button matTooltip="Login" (click)="login()">
+      <mat-icon class="text-white">login</mat-icon>
+    </button>
+  </ng-template>
+</mat-toolbar>
+<mat-grid-list cols="4" class="h-[calc(100vh-5rem)] pb-0" rowHeight="100%">
+  <mat-grid-tile [colspan]="3" class="overflow-hidden">
+    <router-outlet></router-outlet>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1">
+    <chat />
+  </mat-grid-tile>
+</mat-grid-list>

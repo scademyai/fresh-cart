@@ -1,0 +1,16 @@
+<div *ngIf="isProductLoaded$ | async" class="flex flex-col items-center justify-center">    
+    <p class="font-bold text-2xl">Product: {{ (productState$|async)?.data?.product?.name }}</p>
+    <p class="text-xl">Price: ${{ (productState$|async)?.data?.product?.price }}</p>
+    <h2 class="text-2xl pt-8">Similar products</h2>
+    <div class="flex flex-wrap justify-center">
+        <mat-card class="w-80 h-36 mt-4 ml-4 bg-secondary" *ngFor="let similarProduct of (productState$|async)?.data?.similar">
+            <mat-card-header>
+                <mat-card-title-group>
+                <mat-card-title class="text-white">{{ similarProduct.name }}</mat-card-title>
+                <mat-card-subtitle class="text-primary">${{ similarProduct.price }}</mat-card-subtitle>
+                <img mat-card-sm-image class="text-white" src="/assets/box-icon.svg" >
+                </mat-card-title-group>
+            </mat-card-header>
+        </mat-card>
+    </div>
+</div>
