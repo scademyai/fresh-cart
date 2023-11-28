@@ -47,7 +47,37 @@ def ex2_text_recipe_context(prompt: str) -> str:
 
     # Extend this context
     context = f"""
-        {prompt}
+        Context:
+            - Even if the user doesn't ask something specific, give them a recipe that is close to their request.
+            - Don't answer anything else. Not even the name of the recipe.
+
+            Example request:
+                Breakfast for 1 person
+            Example return:
+                Here is a delicious and healthy breakfast recipe that you can make for one person:
+                Avocado Toast with Egg:
+
+                Ingredients:
+                - 1 slice of whole grain bread
+                - 1/2 ripe avocado
+                - 1 egg
+                - Salt and pepper to taste
+                - Optional toppings: sliced tomato, feta cheese, everything bagel seasoning
+
+                Instructions:
+                1. Toast the slice of bread.
+                2. While the bread is toasting, mash the avocado in a small bowl and add salt and pepper to taste.
+                3. Fry the egg in a non-stick skillet until the white is set and the yolk is still runny.
+                4. When the toast is done, spread the mashed avocado on top.
+                5. Place the fried egg on top of the avocado toast.
+                6. Finish by adding any optional toppings you desire.
+
+                Enjoy your delicious and healthy breakfast!
+        ---
+        Give a recipe for the user based on the above context.
+        
+        User request: {prompt}
+        Your answer:
     """
     return context
 
