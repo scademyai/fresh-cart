@@ -30,7 +30,7 @@ class Product(db.Model):
             """
             SELECT p.id, p.name, p.price FROM products p 
             WHERE p.id != :product_id 
-            ORDER BY p.name ASC LIMIT 15;
+            ORDER BY p.embedding <#> :embedding ASC LIMIT 15;
         """
         ).columns(Product.id, Product.name, Product.price)
 
