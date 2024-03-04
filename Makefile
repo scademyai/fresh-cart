@@ -9,11 +9,16 @@ test_env_setting=DATABASE_URL=\$$TEST_DATABASE_URL
 !endif
 
 container=fresh-cart-be
-fecontainer=fresh-cart-fe
+fedcontainer=fresh-cart-dev-fe
+fepcontainer=fresh-cart-prod-fe
 
-# start all the containers
+# start all the containers in dev mode
+dev:
+	docker compose up -d $(container) $(fedcontainer)
+
+# start all the containers in prod mode
 start:
-	docker compose up -d
+	docker compose up -d $(container) $(fepcontainer)
 
 # stop all the containers
 stop:
@@ -26,12 +31,16 @@ restart: stop start
 build:
 	docker compose build
 
+# build the frontend container
+build-fe:
+	docker compose run --rm $(fedcontainer) npm run build
+
 # run tests
 test:
 	docker compose exec -T $(container) /bin/sh -c "$(test_env_setting) poetry run nose2 -v"
 
 atest:
-	docker compose exec -T $(fecontainer) /bin/sh -c "npm test"
+	docker compose exec -T $(fedcontainer) /bin/sh -c "npm test"
 
 # get a shell within the app container
 sh:
@@ -41,7 +50,7 @@ tsh:
 	docker compose exec $(container) /bin/sh -c "$(test_env_setting) sh"
 
 ash:
-	docker compose exec $(fecontainer) /bin/sh
+	docker compose exec $(fedcontainer) /bin/sh
 
 embed-all:
 	docker compose exec $(container) /bin/sh -c "poetry run embed --all"
