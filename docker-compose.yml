@@ -15,9 +15,9 @@ services:
     depends_on:
       - postgres
 
-  fresh-cart-fe:
+  fresh-cart-dev-fe:
     build: frontend
-    image: fresh-cart-fe
+    image: fresh-cart-dev-fe
     working_dir: /usr/src/app/
     volumes:
       - ./frontend/:/usr/src/app/
@@ -25,6 +25,16 @@ services:
     ports:
       - 4200:4200
     command: npm start
+    networks:
+      - fresh-net
+
+  fresh-cart-prod-fe:
+    image: nginx:1.19.0
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 4200:80
     networks:
       - fresh-net
 
