@@ -28,6 +28,9 @@ Using `make`. Check out the `Makefile`.
 For Windows, there is [NMake](https://docs.microsoft.com/en-us/cpp/build/reference/nmake-reference?view=vs-2019).
 Or you may use [make for windows](https://sourceforge.net/projects/gnuwin32/).
 
+
+Create `fresh-cart.log` in the root directory of this repo first.
+
 ```
 make start
 ```
