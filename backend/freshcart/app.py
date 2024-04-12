@@ -13,6 +13,7 @@ from flask_socketio import SocketIO
 
 from .lib.chatbot import freshbot_entry_point
 from .lib.db import get_every_product
+from .lib.logger import log
 from .lib.models.products import Product
 from .lib.session import (
     add_product_to_cart,
@@ -48,6 +49,7 @@ def create_app():
 
     @app.route("/refresh-session", methods=["GET"])
     def refresh_session():
+        log("Refreshing session")
         session_id = uuid4()
         access_token = create_access_token(
             identity=session_id, expires_delta=timedelta(hours=8)
@@ -64,6 +66,7 @@ def create_app():
     @app.route("/products", methods=["GET"])
     @jwt_required()
     def products():
+        log("GET every product")
         products = get_every_product()
         products_json = [p.json() for p in products]
         return products_json
@@ -71,6 +74,7 @@ def create_app():
     @app.route("/products/<int:product_id>", methods=["GET"])
     @jwt_required()
     def get_product(product_id):
+        log(f"GET product with id {product_id}")
         product = Product.query.get(product_id)
         if not product:
             return {}
@@ -83,6 +87,7 @@ def create_app():
     @app.route("/cart/<int:product_id>", methods=["DELETE"])
     @jwt_required()
     def remove_item(product_id):
+        log(f"DELETE product with id {product_id} from cart")
         session_id = get_jwt_identity()
         cart = delete_from_cart(session_id, product_id)
 
@@ -93,10 +98,13 @@ def create_app():
     def cart():
         session_id = get_jwt_identity()
         if request.method == "GET":
+            log("GET cart")
             cart = get_cart(session_id)
         elif request.method == "DELETE":
+            log("DELETE cart")
             cart = delete_cart(session_id)
         else:
+            log(f"POST (add) product to cart: {request.json['product']}")
             cart = add_product_to_cart(session_id, request.json["product"])
         return {"cart": cart}, 200
 
