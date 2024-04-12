@@ -14,7 +14,7 @@ from .stream_utils import stream, stream_json, stream_text
 #                           EXERCISES START BELOW                           #
 #                                                                           #
 # ************************************************************************* #
-
+# fmt: off
 
 def freshbot_entry_point(message: dict):
     log(f"freshbot: {message['text']}")
@@ -23,10 +23,10 @@ def freshbot_entry_point(message: dict):
     ex1_freshbot_website(message)
 
     # EXERCISE 2. Comment out the line above and uncomment the line below.
-    # ex2_recipe_suggestion(message)
+    #ex2_recipe_suggestion(message)
 
     # EXERCISE 3. Comment out the line above and uncomment the line below.
-    # ex3_orchestrate(message)
+    #ex3_orchestrate(message)
 
 
 def ex1_freshbot_website(message: dict):
@@ -59,10 +59,10 @@ def ex3_orchestrate(message: dict):
         ex2_recipe_suggestion(message)
 
         # EXERCISE 4. Comment out the line above and uncomment the line below.
-        # ex4_json_recipe(message)
+        #ex4_json_recipe(message)
 
         # EXERCISE 5. Comment out the line above and uncomment the line below.
-        # ex5_product_catalog_recipe(message)
+        #ex5_product_catalog_recipe(message)
     else:
         stream_text("I don't understand.")
 
@@ -86,3 +86,4 @@ def ex5_product_catalog_recipe(message: dict):
             ex5_json_recipe_from_product_catalog_context(message["text"])
         )
     )
+# fmt: on

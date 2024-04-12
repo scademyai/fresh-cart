@@ -1,12 +1,16 @@
 version: '3'
 services:
   fresh-cart-be:
-    env_file: backend/.env
+    environment:
+      DATABASE_URL: postgresql://app_dev:dev_password@postgres/dev
+      TEST_DATABASE_URL: postgresql://app_test:test_password@postgres/test
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
     build: backend
     image: fresh-cart-be
     working_dir: /usr/src/app/
     volumes:
       - ./backend/:/usr/src/app/
+      - ./fresh-cart.log:/var/log/fresh-cart.log
     ports:
       - 9090:9090
     command: poetry run flask --debug --app freshcart/app run --host 0.0.0.0 --port 9090
@@ -37,6 +41,7 @@ services:
       - 4200:80
     networks:
       - fresh-net
+    restart: on-failure
 
   postgres:
     image: ankane/pgvector:v0.4.1
