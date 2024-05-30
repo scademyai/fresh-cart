@@ -1,25 +1,27 @@
 <markdown id="chatContainer" [data]="message" class="flex-1 w-full p-4 mb-4 bg-[#eeeeee] rounded overflow-y-scroll max-h-full"></markdown>
-<div *ngFor="let product of products">
-  <div class="flex items-center">
-    <p class="mr-auto">
-      {{ product.name }}
-    </p>
-    <p>
-      {{ product.quantity }}
-    </p>
-    <button mat-icon-button *ngIf="product.id !== -1; else search" (click)="addToCart(product)">
-      <mat-icon>add_shopping_cart</mat-icon>
-    </button>
-    <ng-template #search>
-        <a [routerLink]="['/shop']" [queryParams]="{ products: product.name }" class="ml-32">
-          <button mat-icon-button>
-            <mat-icon>search</mat-icon>
-          </button>
-      </a>
-    </ng-template>
+<div class="max-h-60 overflow-y-auto">
+  <div *ngFor="let product of products">
+    <div class="flex items-center">
+      <p class="mr-auto">
+        {{ product.name }}
+      </p>
+      <p>
+        {{ product.quantity }}
+      </p>
+      <button mat-icon-button *ngIf="product.id !== -1; else search" (click)="addToCart(product)">
+        <mat-icon>add_shopping_cart</mat-icon>
+      </button>
+      <ng-template #search>
+          <a [routerLink]="['/shop']" [queryParams]="{ products: product.name }" class="ml-32">
+            <button mat-icon-button>
+              <mat-icon>search</mat-icon>
+            </button>
+        </a>
+      </ng-template>
+    </div>
   </div>
 </div>
-<form [formGroup]="userForm" (keydown.enter)="sendMessage($event)" class="flex flex-col w-full items-center">
+<form [formGroup]="userForm" (keydown.enter)="sendMessage($event)" class="flex flex-col w-full items-center pt-4">
   <mat-form-field class="h-32 w-full">
     <mat-label>Ask something...</mat-label>
     <textarea matInput formControlName="userInput" class="resize-none"></textarea>
