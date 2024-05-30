@@ -2,3 +2,5 @@ __pycache__
 .env
 .angular
 fresh-cart.log
+dist
+.idea

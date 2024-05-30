@@ -1,10 +1,15 @@
-.PHONY: start stop build sh tsh ash logs test atest embed-all embed-first restart config commit lint psql migrate rollback tpsql tmigrate trollback demo-data promote load-products-sample load-products
+.PHONY: start stop build sh tsh ash logs test atest embed-all embed-first restart config commit lint psql migrate rollback tpsql tmigrate trollback demo-data promote load-products-sample load-products clear reset-products
+
+# First runs on Windows
+# Second runs on Linux
 
 # \
 !ifndef 0 # \
 test_env_setting="DATABASE_URL=$$TEST_DATABASE_URL" # \
+ensure_log="copy /b fresh-cart.log +,, >nul" # \
 !else
 test_env_setting=DATABASE_URL=\$$TEST_DATABASE_URL
+ensure_log=touch fresh-cart.log
 # \
 !endif
 
@@ -14,11 +19,11 @@ fepcontainer=fresh-cart-prod-fe
 
 # start all the containers in dev mode
 dev:
-	docker compose up -d $(container) $(fedcontainer)
+	$(ensure_log) && docker compose up -d $(container) $(fedcontainer)
 
 # start all the containers in prod mode
 start:
-	docker compose up -d $(container) $(fepcontainer)
+	$(ensure_log) && docker compose up -d $(container) $(fepcontainer)
 
 # stop all the containers
 stop:
@@ -107,3 +112,9 @@ app-logs:
 
 reset-app-logs:
 	docker compose exec $(container) /bin/sh -c "echo -ne "" > /var/log/fresh-cart.log"
+
+clear:
+	docker compose down
+	docker volume rm fresh-cart_pgdata
+
+reset-products: stop clear dev migrate load-products-sample
