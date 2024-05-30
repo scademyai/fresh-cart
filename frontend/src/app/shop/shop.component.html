@@ -11,7 +11,7 @@
         <mat-card class="w-80 h-36 mt-4 ml-4 bg-secondary" *ngFor="let product of obs | async">
             <mat-card-header>
                 <mat-card-title-group>
-                <mat-card-title class="text-white">{{ product.name }}</mat-card-title>
+                <mat-card-title class="text-white whitespace-nowrap text-ellipsis max-w-[150px] overflow-hidden">{{ product.name }}</mat-card-title>
                 <mat-card-subtitle class="text-primary">${{ product.price }}</mat-card-subtitle>
                 <img mat-card-sm-image class="text-white" src="/assets/box-icon.svg" >
                 </mat-card-title-group>
