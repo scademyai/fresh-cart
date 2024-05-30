@@ -34,7 +34,7 @@ def categorize_message(prompt: str, trials: int = 1) -> str:
     for _ in range(trials):
         category = completion_text(prompt)
 
-        if category in ("website", "recipe"):
+        if category in ("website", "recipe", "product"):
             return category
 
         time.sleep(0.2)

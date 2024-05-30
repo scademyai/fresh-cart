@@ -5,6 +5,7 @@ from .contexts import (
     ex3_categorization_context,
     ex4_json_recipe_context,
     ex5_json_recipe_from_product_catalog_context,
+    ex7_sql_injection_context,
 )
 from .logger import log
 from .stream_utils import stream, stream_json, stream_text
@@ -63,6 +64,8 @@ def ex3_orchestrate(message: dict):
 
         # EXERCISE 5. Comment out the line above and uncomment the line below.
         ex5_product_catalog_recipe(message)
+    elif category == "product":
+        ex7_sql_injection(message)
     else:
         stream_text("I don't understand.")
 
@@ -87,3 +90,30 @@ def ex5_product_catalog_recipe(message: dict):
         )
     )
 # fmt: on
+
+
+def ex7_sql_injection(message: dict):
+    # EXERCISE 7. - SQL Injection - Product information
+    # Your task is to make the model run a malicious query
+    response = completion(
+        ex7_sql_injection_context(message["text"]), stream=False
+    )
+    query = response.choices[0].message.content
+
+    try:
+        from .db import execute_query
+
+        products = execute_query(query)
+
+        i = 0
+        for product in products:
+            for col in product:
+                if i > 0:
+                    stream_text(", ")
+                stream_text(col)
+                i += 1
+
+        if i == 0:
+            stream_text("Something went wrong.")
+    except:
+        stream_text("Something went wrong.")

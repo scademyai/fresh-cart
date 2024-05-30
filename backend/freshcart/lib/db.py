@@ -1,8 +1,9 @@
 import os
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 
 from .ai.llm_adapter import completion_text
+from .logger import log
 from .models.products import Product
 
 engine = create_engine(os.environ.get("DATABASE_URL"))
@@ -36,7 +37,12 @@ def query_formatter(table_name: str, query: str):
 
 
 def execute_query(query):
-    return engine.execute(query)
+    log("running query: " + query)
+
+    with engine.connect() as connection:
+        result = connection.execute(text(query))
+        connection.commit()
+        return result
 
 
 def get_every_product() -> list[Product]:

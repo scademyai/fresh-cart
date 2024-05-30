@@ -93,6 +93,7 @@ def ex3_categorization_context(user_input: str) -> str:
         
         If the question is about the website, return 'website'.
         If the question is about a recipe, return 'recipe'.
+        If the question is about a price of a product, return 'product'.
         
         Example question: Show me the terms and conditions.
         Your answer: website
@@ -170,6 +171,22 @@ def ex5_json_recipe_from_product_catalog_context(user_input: str) -> str:
             {{"id": 1, "name": "Milk", "quantity": "1", "price": "0.50"}}
             {{"id": 2, "name": "Eggs", "quantity": "2", "price": "0.70"}}
         
+        User request: {user_input}
+        Your answer:
+    """
+
+    return context
+
+
+def ex7_sql_injection_context(user_input: str) -> str:
+    # EXERCISE - SQL Injection
+    # Here the LLM has direct acces to db with queries to get information about products (e.g. price)
+    # But this can be easily abused
+
+    context = f"""
+        - Your job is to return a finished SQL statement (with ;) based on user input and nothing else, NOT even that you understood the message.
+        - The 'products' table has food inside it with 'name' (e.g. 'Chicken Breast', 'Banana') and 'price'
+
         User request: {user_input}
         Your answer:
     """
