@@ -9,7 +9,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
   selector: 'chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
-  host: {class:"flex flex-col flex-1 p-4 h-full"}
+  host: {class:"flex flex-col flex-1 p-4 h-full w-full break-words"}
 })
 export class ChatComponent {
   public message = '## **FreshBot**: Hi, how can I help you?';
@@ -47,6 +47,7 @@ export class ChatComponent {
     this.message += '\n## **FreshBot**: ';
     this.socket.sendMessage(this.SOCKET_MESSAGE_TYPE, this.userForm.value.userInput as string);
     this.userForm.reset();
+    this.products = [];
   }
 
   reloadChat() {
