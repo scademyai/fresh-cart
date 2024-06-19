@@ -1,5 +1,7 @@
+import os
 import time
 
+from langsmith import traceable
 from openai import OpenAI
 
 client = OpenAI()
@@ -8,6 +10,10 @@ MODEL = "gpt-3.5-turbo"
 EMBEDDING_MODEL = "text-embedding-ada-002"
 
 
+@traceable(
+    tags=[os.environ.get("LANGCHAIN_TAG")],
+    run_type="llm",
+)
 def completion(prompt: str, stream: bool = True):
     return client.chat.completions.create(
         model=MODEL,
@@ -24,10 +30,16 @@ def embed_text(text: str) -> [float]:
     return ret.data[0].embedding
 
 
+@traceable(
+    tags=[os.environ.get("LANGCHAIN_TAG")],
+)
 def completion_text(prompt: str):
     return completion(prompt, False).choices[0].message.content
 
 
+@traceable(
+    tags=[os.environ.get("LANGCHAIN_TAG")],
+)
 def categorize_message(prompt: str, trials: int = 1) -> str:
     category = ""
 
