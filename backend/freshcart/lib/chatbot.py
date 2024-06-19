@@ -1,3 +1,7 @@
+import os
+
+from langsmith import traceable
+
 from .ai.llm_adapter import categorize_message, completion
 from .contexts import (
     ex1_freshbot_context,
@@ -17,6 +21,9 @@ from .stream_utils import stream, stream_json, stream_text
 # ************************************************************************* #
 # fmt: off
 
+@traceable(
+    tags=[os.environ.get("LANGCHAIN_TAG")],
+)
 def freshbot_entry_point(message: dict):
     log(f"freshbot: {message['text']}")
 
@@ -43,7 +50,9 @@ def ex2_recipe_suggestion(message: dict):
 
     stream(completion(ex2_text_recipe_context(message["text"])))
 
-
+@traceable(
+    tags=[os.environ.get("LANGCHAIN_TAG")],
+)
 def ex3_orchestrate(message: dict):
     # EXERCISE 3. - Orchestrate
     # Your task is to implement an orchestrator that routes the user's
