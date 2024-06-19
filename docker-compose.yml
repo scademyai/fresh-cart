@@ -5,6 +5,10 @@ services:
       DATABASE_URL: postgresql://app_dev:dev_password@postgres/dev
       TEST_DATABASE_URL: postgresql://app_test:test_password@postgres/test
       OPENAI_API_KEY: ${OPENAI_API_KEY}
+      LANGCHAIN_API_KEY: ${LANGCHAIN_API_KEY}
+      LANGCHAIN_PROJECT: freshcart
+      LANGCHAIN_TRACING_V2: false
+      LANGCHAIN_TAG: <ENTER_YOUR_TAG>
     build: backend
     image: fresh-cart-be
     working_dir: /usr/src/app/
