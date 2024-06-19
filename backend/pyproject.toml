@@ -17,7 +17,7 @@ pgvector = "0.2.3"
 Flask-Cors = "4.0.0"
 Flask-JWT-Extended = "4.5.3"
 click = "8.1.7"
-langsmith = "^0.1.67"
+langsmith = "0.1.67"
 
 [tool.poetry.dev-dependencies]
 black = "23.11.0"
