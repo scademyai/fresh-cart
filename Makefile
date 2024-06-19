@@ -117,4 +117,4 @@ clear:
 	docker compose down
 	docker volume rm fresh-cart_pgdata
 
-reset-products: stop clear dev migrate load-products-sample
+reset-products: stop clear start migrate load-products-sample
