@@ -7,7 +7,7 @@ services:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       LANGCHAIN_API_KEY: ${LANGCHAIN_API_KEY}
       LANGCHAIN_PROJECT: freshcart
-      LANGCHAIN_TRACING_V2: false
+      LANGCHAIN_TRACING_V2: true
       LANGCHAIN_TAG: <ENTER_YOUR_TAG>
     build: backend
     image: fresh-cart-be
