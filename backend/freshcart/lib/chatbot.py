@@ -41,14 +41,14 @@ def ex1_freshbot_website(message: dict):
     # EXERCISE 1. - FreshBot
     # Your task is to implement a basic chatbot with static context.
 
-    stream(completion(ex1_freshbot_context(message["text"])))
+    stream(completion(ex1_freshbot_context(message["text"]), ex_title = "ex1_freshbot_website"))
 
 
 def ex2_recipe_suggestion(message: dict):
     # EXERCISE 2. - Simple recipe
     # Your task is to implement a recipe suggestor extending a context.
 
-    stream(completion(ex2_text_recipe_context(message["text"])))
+    stream(completion(ex2_text_recipe_context(message["text"]), ex_title = "ex2_recipe_suggestion"))
 
 @traceable(
     tags=[os.environ.get("LANGCHAIN_TAG")],
@@ -85,7 +85,7 @@ def ex4_json_recipe(message: dict):
     # Each message should be a valid JSON object.
     # Fragment format: { "name": "Milk", "quantity": "1" }
 
-    stream_json(completion(ex4_json_recipe_context(message["text"])))
+    stream_json(completion(ex4_json_recipe_context(message["text"]), ex_title = "ex4_json_recipe"))
 
 
 def ex5_product_catalog_recipe(message: dict):
@@ -95,7 +95,7 @@ def ex5_product_catalog_recipe(message: dict):
 
     stream_json(
         completion(
-            ex5_json_recipe_from_product_catalog_context(message["text"])
+            ex5_json_recipe_from_product_catalog_context(message["text"]), ex_title = "ex5_product_catalog_recipe"
         )
     )
 # fmt: on
@@ -105,7 +105,7 @@ def ex7_sql_injection(message: dict):
     # EXERCISE 7. - SQL Injection - Product information
     # Your task is to make the model run a malicious query
     response = completion(
-        ex7_sql_injection_context(message["text"]), stream=False
+        ex7_sql_injection_context(message["text"]), stream=False, ex_title = "ex7_sql_injection"
     )
     query = response.choices[0].message.content
 
