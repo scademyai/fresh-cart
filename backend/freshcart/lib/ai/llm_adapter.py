@@ -14,12 +14,14 @@ EMBEDDING_MODEL = "text-embedding-ada-002"
     tags=[os.environ.get("LANGCHAIN_TAG")],
     run_type="llm",
 )
-def completion(prompt: str, stream: bool = True):
+def completion(prompt: str, stream: bool = True, ex_title: str = ""):
     return client.chat.completions.create(
         model=MODEL,
         messages=[
             {"role": "user", "content": prompt},
         ],
+        store=True,
+        metadata={"type": "freshcart", "title": ex_title},
         stream=stream,
     )
 
@@ -34,7 +36,9 @@ def embed_text(text: str) -> [float]:
     tags=[os.environ.get("LANGCHAIN_TAG")],
 )
 def completion_text(prompt: str):
-    return completion(prompt, False).choices[0].message.content
+    return (
+        completion(prompt, False, "text completion").choices[0].message.content
+    )
 
 
 @traceable(
