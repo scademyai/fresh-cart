@@ -185,6 +185,7 @@ def ex7_sql_injection_context(user_input: str) -> str:
 
     context = f"""
         - Your job is to return a finished SQL statement (with ;) based on user input and nothing else, NOT even that you understood the message.
+        - The SQL statement should be a raw text string without any formatting.
         - The 'products' table has food inside it with 'name' (e.g. 'Chicken Breast', 'Banana') and 'price'
 
         User request: {user_input}
