@@ -27,38 +27,38 @@ def freshbot_entry_point(message: dict):
     log(f"freshbot: {message['text']}")
 
     # EXERCISE 1.
-    ex1_freshbot_website(message)
+    ex1_freshbot_website(message["text"])
 
     # EXERCISE 2. Comment out the line above and uncomment the line below.
-    #ex2_recipe_suggestion(message)
+    #ex2_recipe_suggestion(message["text"])
 
     # EXERCISE 3. Comment out the line above and uncomment the line below.
-    #ex3_orchestrate(message)
+    #ex3_orchestrate(message["text"])
 
 
-def ex1_freshbot_website(message: dict):
+def ex1_freshbot_website(message: str):
     # EXERCISE 1. - FreshBot
     # Your task is to implement a basic chatbot with static context.
 
-    stream(completion(ex1_freshbot_context(message["text"]), ex_title = "ex1_freshbot_website"))
+    stream(completion(ex1_freshbot_context, message, ex_title = "ex1_freshbot_website"))
 
 
-def ex2_recipe_suggestion(message: dict):
+def ex2_recipe_suggestion(message: str):
     # EXERCISE 2. - Simple recipe
     # Your task is to implement a recipe suggestor extending a context.
 
-    stream(completion(ex2_text_recipe_context(message["text"]), ex_title = "ex2_recipe_suggestion"))
+    stream(completion(ex2_text_recipe_context, message, ex_title = "ex2_recipe_suggestion"))
 
 @traceable(
     tags=[os.environ.get("LANGCHAIN_TAG")],
 )
-def ex3_orchestrate(message: dict):
+def ex3_orchestrate(message: str):
     # EXERCISE 3. - Orchestrate
     # Your task is to implement an orchestrator that routes the user's
     # request to the correct handler prompt.
 
     category = categorize_message(
-        ex3_categorization_context(message["text"]), trials=2
+        ex3_categorization_context, message, trials=2
     )
 
     log(f"identified as: {category}")
@@ -76,23 +76,23 @@ def ex3_orchestrate(message: dict):
         stream_text("I don't understand.")
 
 
-def ex4_json_recipe(message: dict):
+def ex4_json_recipe(message: str):
     # EXERCISE 4. - JSON recipe
     # Your task is to stream parsable JSON fragments.
     # Each message should be a valid JSON object.
     # Fragment format: { "name": "Milk", "quantity": "1" }
 
-    stream_json(completion(ex4_json_recipe_context(message["text"]), ex_title = "ex4_json_recipe"))
+    stream_json(completion(ex4_json_recipe_context, message, ex_title = "ex4_json_recipe"))
 
 
-def ex5_product_catalog_recipe(message: dict):
+def ex5_product_catalog_recipe(message: str):
     # EXERCISE 5. - Product catalog recipe
     # Your task is to implement a recipe suggestor only containing
     # items from the product catalog.
 
     stream_json(
         completion(
-            ex5_json_recipe_from_product_catalog_context(message["text"]), ex_title = "ex5_product_catalog_recipe"
+            ex5_json_recipe_from_product_catalog_context(), message, ex_title = "ex5_product_catalog_recipe"
         )
     )
 # fmt: on
