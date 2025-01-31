@@ -5,60 +5,49 @@
 # ************************************************************************* #
 
 
-def ex1_freshbot_context(user_input: str) -> str:
-    # EXERCISE 1. - FreshBot
-    # Your task is to provide a usable context for the AI model
-    # - Name, website it operates on, and any other relevant information.
-    # - Can only answer questions about the website.
-    # - Website address, website endpoints
-    # - Privacy policy, terms of conditions
+# EXERCISE 1. - FreshBot
+# Your task is to provide a usable context for the AI model
+# - Name, website it operates on, and any other relevant information.
+# - Can only answer questions about the website.
+# - Website address, website endpoints
+# - Privacy policy, terms of conditions
 
-    # Extend this context
-    context = f"""
-        {user_input}
-    """
+# Extend this context
+ex1_freshbot_context = f"""
 
-    return context
+"""
 
+# EXERCISE 2. - Simple recipe
+# Your task is to provide a usable context for the AI model
+# - It should ensure that it answers to any recipe request, but nothing else.
 
-def ex2_text_recipe_context(user_input: str) -> str:
-    # EXERCISE 2. - Simple recipe
-    # Your task is to provide a usable context for the AI model
-    # - It should ensure that it answers to any recipe request, but nothing else.
+# Extend this context
+ex2_text_recipe_context = f"""
 
-    # Extend this context
-    context = f"""
-        {user_input}
-    """
-    return context
+"""
 
 
-def ex3_categorization_context(user_input: str) -> str:
-    # EXERCISE 3. - Orchestration
-    # Your task is to provide a usable context for the AI model
-    # - It should decide what topic the user asks about
+# EXERCISE 3. - Orchestration
+# Your task is to provide a usable context for the AI model
+# - It should decide what topic the user asks about
 
-    # Extend this context
-    context = f"""
-        {user_input}
-    """
+# Extend this context
+ex3_categorization_context = f"""
 
-    return context
+"""
 
 
-def ex4_json_recipe_context(user_input: str) -> str:
-    # EXERCISE 4. - Formatted response
-    # Your task is to provide a usable context for the AI model
-    # - It should ensure that the returned ingredients are JSON formatted
+# EXERCISE 4. - Formatted response
+# Your task is to provide a usable context for the AI model
+# - It should ensure that the returned ingredients are JSON formatted
 
-    # Extend this context
-    context = f"""
-        {user_input}
-    """
-    return context
+# Extend this context
+ex4_json_recipe_context = f"""
+
+"""
 
 
-def ex5_json_recipe_from_product_catalog_context(user_input: str) -> str:
+def ex5_json_recipe_from_product_catalog_context() -> str:
     # EXERCISE 5. - Product catalog recipe
     # Your task is to provide a usable context for the AI model
     # - It should return ingredients only from the product catalog
@@ -77,7 +66,7 @@ def ex5_json_recipe_from_product_catalog_context(user_input: str) -> str:
 
     # Extend this context
     context = f"""
-        {user_input}
+
     """
 
     return context
